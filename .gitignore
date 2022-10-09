@@ -63,5 +63,5 @@ typings/
 # JetBrains IDE
 .idea
 
-# Don't track transpiled files
-dist/
+# Build folder
+dist

@@ -1,59 +1,150 @@
-"use strict";
+import { ConnectionMongoDb } from "config/db.config";
+import type { ServiceSchema } from "moleculer";
+import { Model } from "mongoose";
+import { Company, CompanySchema } from "../src/company/schemas/company.schema";
+import { CompanyModel } from "../src/model/company.model";
+// import { Company } from "../src/interfaces/company.inteface";
+import mongoose from "mongoose";
 
-import { Service, ServiceBroker, Context } from "moleculer";
-
-interface Company {
+interface ICompany {
 	name: string;
 	address: string;
 	employees: number;
 }
 
-export default class CompanyService extends Service {
-	public constructor(public broker: ServiceBroker) {
-		super(broker);
-		this.parseServiceSchema({
-			name: "company",
+const companyService: ServiceSchema = {
+	name: "company",
+	/**
+	 * Settings
+	 */
+	settings: {},
 
-			settings: {
-				// Available fields in the responses
-				fields: ["_id", "name", "address", "employees"],
+	/**
+	 * Dependencies
+	 */
+	dependencies: [],
 
-				// Validator for the `create` & `insert` actions.
-				entityValidator: {
-					name: "string|min:3",
-					price: "number|positive",
-				},
+	/**
+	 * Actions
+	 */
+	actions: {
+		// getAll: {
+		// 	rest: "GET /",
+		// 	async handler(): Promise<void> {
+		// 		const CompanyModel = await CompanybySchema.find();
+
+		// 		return CompanyModel;
+		// 	},
+		// },
+
+		// create: {
+		// 	rest: "POST /create",
+		// 	params: {
+		// 		name: "string",
+		// 		address: "string",
+		// 		employees: "number",
+		// 	},
+		// 	async handler(req: any): Promise<void> {
+		// 		const { name, address, employees } = req.params;
+
+		// 		const companyDoc = new CompanybySchema({
+		// 			name,
+		// 			address,
+		// 			employees,
+		// 		});
+
+		// 		const saveCompanyModel = await companyDoc.save();
+
+		// 		return saveCompanyModel;
+		// 	},
+		// },
+
+		createbyNest: {
+			rest: "POST /createbyNest",
+			params: {
+				name: "string",
+				address: "string",
+				employees: "number",
 			},
+			async handler(req: any): Promise<void> {
+				const { name, address, employees } = req.params;
+				const companyDoc = await CompanyModel.create({
+					name,
+					address,
+					employees,
+				});
 
-			actions: {
-				/**
-				 * Say a 'Hello' action.
-				 *
-				 */
+				const result = await companyDoc.save();
 
-				createCompany: {
-					rest: "POST /",
-					params: {
-						name: "string",
-						address: "string",
-						employees: "number",
-					},
-
-					async handler(ctx: Context<Company>): Promise<Company> {
-						const json: Company = ctx.params;
-						return json;
-					},
-				},
+				return result;
 			},
-		});
-	}
+		},
 
-	// // Action
-	// public ActionHello(): string {
-	// 	return "Hello Moleculer";
-	// }
+		getAllbyNest: {
+			rest: "GET /getbyNest",
 
-	// public ActionWelcome(name: string): string {
-	// 	return `Welcome, ${name}`;
-	// }
-}
+			async handler(): Promise<Company[]> {
+				const getCompany = await CompanyModel.find();
+				return getCompany;
+			},
+		},
+
+		// welcome: {
+		// 	rest: "/welcome",
+		// 	params: {
+		// 		username: { type: "string", min: 3, max: 25 },
+		// 	},
+		// 	/** @param {req} ctx  */
+		// 	async handler(
+		// 		ctx: req<{
+		// 			username: string;
+		// 		}>
+		// 	) {
+		// 		return `Welcome, ${ctx.params.username}`;
+		// 	},
+		// },
+	},
+
+	/**
+	 * Events
+	 */
+	events: {},
+
+	/**
+	 * Methods
+	 */
+	methods: {},
+
+	// async getCompanyModel() {
+	// 	const db = await ConnectionMongoDb.connect();
+
+	// 	const companyModel = mongoose.Model<Company>;
+
+	// 	companyModel = db.model('company', CompanybySchema)
+
+	// },
+
+	/**
+	 * Service created lifecycle event handler
+	 */
+
+	created() {
+		this.logger.info("[greeter] The service was created");
+	},
+
+	/**
+	 * Service started lifecycle event handler
+	 */
+	async started() {
+		this.logger.info("[greeter] The service was started");
+	},
+
+	/**
+	 * Service stopped lifecycle event handler
+	 */
+	async stopped() {
+		this.logger.info("[greeter] The service was stopped");
+	},
+};
+
+export default companyService;
