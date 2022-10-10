@@ -1,7 +1,7 @@
+import { CompanySchema } from "../company/schemas/company.schema";
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
-import { Company, CompanySchema } from "../company/schemas/company.schema";
 
 // export const CompanybySchema = mongoose.model(
 // 	"companys",
@@ -19,3 +19,12 @@ import { Company, CompanySchema } from "../company/schemas/company.schema";
 // );
 
 export const CompanyModel = mongoose.model("companys", CompanySchema);
+
+// export const CompanyModelCommand = mongoose.model(
+// 	"companys_command",
+// 	CompanySchema
+// );
+// export const CompanyModelQuery = mongoose.model(
+// 	"companys_query",
+// 	CompanySchema
+// );

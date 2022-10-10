@@ -1,8 +1,8 @@
-import { CompanyRepository } from "./companys.repository";
 import { Injectable } from "@nestjs/common";
 import mongoose from "mongoose";
+
+import { CompanyRepository } from "./companys.repository";
 import { Company, CompanySchema } from "./schemas/company.schema";
-import { ConnectionMongoDb } from "../../config/db.config";
 
 @Injectable()
 export class CompanyHandler implements CompanyRepository {
