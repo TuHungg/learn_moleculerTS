@@ -5,6 +5,7 @@ import { Company, CompanySchema } from "../src/company/schemas/company.schema";
 import { CompanyModel } from "../src/model/company.model";
 // import { Company } from "../src/interfaces/company.inteface";
 import mongoose from "mongoose";
+import { CompanyHandler } from "../src/company/companys.handler";
 
 interface ICompany {
 	name: string;
@@ -84,8 +85,26 @@ const companyService: ServiceSchema = {
 			rest: "GET /getbyNest",
 
 			async handler(): Promise<Company[]> {
-				const getCompany = await CompanyModel.find();
-				return getCompany;
+				// const getCompany = await CompanyModel.find();
+				// return getCompany;
+
+				const company = new CompanyHandler();
+				const result = await company.findAll();
+
+				return result;
+			},
+		},
+
+		findbyId: {
+			rest: "POST /findcompany",
+			params: {
+				id: "string",
+			},
+			async handler(req: any): Promise<Company> {
+				const company = new CompanyHandler();
+				const result = await company.findById(req.params.id);
+
+				return result;
 			},
 		},
 
