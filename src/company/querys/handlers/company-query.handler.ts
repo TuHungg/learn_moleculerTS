@@ -5,34 +5,42 @@ import {
 	CompanyQuery,
 	CompanyQuerySchema,
 } from "../../schemas/company-query.schema";
-
+import { InjectModel } from "@nestjs/mongoose";
+import { Company } from "src/company/schemas/company.schema";
 @Injectable()
-export class CompanyQueryHandler implements CompanyQueryRepository {
-	private static companyQueryModel: mongoose.Model<CompanyQuery>;
+export class CompanyQueryHandler {
+	// private static companyQueryModel: mongoose.Model<CompanyQuery>;
 
-	constructor() {}
+	constructor(
+		@InjectModel(Company.name)
+		private companyQueryModel: mongoose.Model<CompanyQuery>
+	) {}
 
-	public static async getCompanyModel() {
-		if (!CompanyQueryHandler.companyQueryModel) {
-			// const db = await ConnectionMongoDb.connect();
-			CompanyQueryHandler.companyQueryModel = mongoose.model(
-				"companys_query",
-				CompanyQuerySchema
-			);
-		}
-		return CompanyQueryHandler.companyQueryModel;
+	public async finAll(): Promise<Company[]> {
+		return this.companyQueryModel.find({});
 	}
 
-	public async findAll(): Promise<CompanyQuery[]> {
-		const model = await CompanyQueryHandler.getCompanyModel();
-		const companys = await model.find();
-		return companys;
-	}
+	// public static async getCompanyModel() {
+	// 	if (!CompanyQueryHandler.companyQueryModel) {
+	// 		// const db = await ConnectionMongoDb.connect();
+	// 		CompanyQueryHandler.companyQueryModel = mongoose.model(
+	// 			"companys_query",
+	// 			CompanyQuerySchema
+	// 		);
+	// 	}
+	// 	return CompanyQueryHandler.companyQueryModel;
+	// }
 
-	public async findById(_id: mongoose.Types.ObjectId): Promise<CompanyQuery> {
-		const model = await CompanyQueryHandler.getCompanyModel();
-		const company = await model.findById(_id);
+	// public async findAll(): Promise<CompanyQuery[]> {
+	// 	const model = await CompanyQueryHandler.getCompanyModel();
+	// 	const companys = await model.find();
+	// 	return companys;
+	// }
 
-		return company;
-	}
+	// public async findById(_id: mongoose.Types.ObjectId): Promise<CompanyQuery> {
+	// 	const model = await CompanyQueryHandler.getCompanyModel();
+	// 	const company = await model.findById(_id);
+
+	// 	return company;
+	// }
 }

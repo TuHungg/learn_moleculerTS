@@ -198,7 +198,6 @@ const apiService: ServiceSchema = {
 
 	created(): void {
 		ConnectionMongoDb.connect();
-
 		// connectdb.connect();
 		mongoose.connection.once("open", () => {
 			console.log("Connected mongoose successfully");

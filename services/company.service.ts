@@ -2,7 +2,7 @@ import { ConnectionMongoDb } from "config/db.config";
 import type { ServiceSchema } from "moleculer";
 import { Model } from "mongoose";
 import { Company, CompanySchema } from "../src/company/schemas/company.schema";
-import { CompanyModel } from "../src/model/company.model";
+import { CompanyModel } from "../src/models/company.model";
 // import { Company } from "../src/interfaces/company.inteface";
 import mongoose from "mongoose";
 import { CompanyHandler } from "../src/company/companys.handler";
@@ -57,11 +57,13 @@ const companyService: ServiceSchema = {
 			},
 			async handler(req: any): Promise<void> {
 				const { name, address, employees } = req.params;
+
 				const companyDoc = await CompanyModel.create({
 					name,
 					address,
 					employees,
 				});
+
 				const result = await companyDoc.save();
 				return result;
 			},

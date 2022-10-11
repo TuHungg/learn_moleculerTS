@@ -10,32 +10,39 @@ const companyQuerySerice: ServiceSchema = {
 	dependencies: [],
 
 	actions: {
+
+		
 		getAllCompany: {
 			rest: "GET /companyquery",
 
 			async handler(): Promise<CompanyQuery[]> {
-				const company = new CompanyQueryHandler();
+				return new CompanyQueryHandler().finAll(;
 
-				const result = await company.findAll();
-
-				return result;
+				// const company = new CompanyQueryHandler();
+				// const result = await company.findAll();
+				// return result;
 			},
 		},
 
-		getbyId: {
-			rest: "POST /companyquery",
-			params: {
-				id: "string",
-			},
-			async handler(req: any): Promise<CompanyQuery> {
-				const company = new CompanyQueryHandler();
+		// getbyId: {
+		// 	rest: "POST /companyquery",
+		// 	params: {
+		// 		id: "string",
+		// 	},
+		// 	async handler(req: any): Promise<CompanyQuery> {
+		// 		const company = new CompanyQueryHandler();
 
-				const result = await company.findById(req.params.id);
+		// 		const result = await company.findById(req.params.id);
 
-				return result;
-			},
-		},
+		// 		return result;
+		// 	},
+		// },
 	},
+
+	created(): void {
+		const company = new new CompanyQueryHandler()
+
+	}
 };
 
 export default companyQuerySerice;

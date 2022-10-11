@@ -1,4 +1,8 @@
-import { CompanySchema } from "../company/schemas/company.schema";
+import { Module } from "@nestjs/common";
+import { CompanySchema, Company } from "../company/schemas/company.schema";
+import { MongooseModule } from "@nestjs/mongoose";
+import { CompanyCommandHandler } from "../company/commands/handlers/company-command.handler";
+import { CompanyQueryHandler } from "../company/querys/handlers/company-query.handler";
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
@@ -19,12 +23,3 @@ const Schema = mongoose.Schema;
 // );
 
 export const CompanyModel = mongoose.model("companys", CompanySchema);
-
-// export const CompanyModelCommand = mongoose.model(
-// 	"companys_command",
-// 	CompanySchema
-// );
-// export const CompanyModelQuery = mongoose.model(
-// 	"companys_query",
-// 	CompanySchema
-// );
